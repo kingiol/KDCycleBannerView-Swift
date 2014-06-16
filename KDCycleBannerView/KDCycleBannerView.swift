@@ -121,16 +121,15 @@ class KDCycleBannerView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelega
                 imageView.image = image
                 scrollView.addSubview(imageView)
             }
-            
             return
         }
         
         pageControl.numberOfPages = datasourceImages.count
         pageControl.currentPage = 0
         
-        if continuous {
+        if continuous && datasourceImages.count > 1 {
             datasourceImages.insert(datasourceImages[datasourceImages.count - 1], atIndex: 0)
-            datasourceImages.append(datasourceImages[0])
+            datasourceImages.append(datasourceImages[1])
         }
         
         let contentWidth = CGRectGetWidth(scrollView.frame)
