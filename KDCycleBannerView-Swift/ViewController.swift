@@ -11,28 +11,36 @@ import UIKit
 class ViewController: UIViewController, KDCycleBannerViewDatasource, KDCycleBannerViewDelegate, UITextFieldDelegate {
                             
     @IBOutlet var textField : UITextField
-//    @IBOutlet var cycleBannerViewTop : KDCycleBannerView
     
+    @IBOutlet var cycleBannerViewTop : KDCycleBannerView
     var cycleBannerViewBottom: KDCycleBannerView = KDCycleBannerView(frame: CGRectZero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        /*
         cycleBannerViewTop.datasource = self
         cycleBannerViewTop.delegate = self
+        cycleBannerViewTop.continuous = true
         cycleBannerViewTop.autoPlayTimeInterval = 5
-        */
 
-        var topRect: CGRect = CGRect(x: 20, y: 50, width: 280, height: 200)//cycleBannerViewTop.frame
-//        topRect.origin.y = CGRectGetHeight(topRect) + 20
+
+        var topRect: CGRect = cycleBannerViewTop.frame
+        topRect.origin.y = CGRectGetMaxY(topRect) + 20
         cycleBannerViewBottom = KDCycleBannerView(frame: topRect)
         cycleBannerViewBottom.datasource = self
         cycleBannerViewBottom.delegate = self
         cycleBannerViewBottom.continuous = true
         cycleBannerViewBottom.autoPlayTimeInterval = 5
-        view.addSubview(cycleBannerViewBottom)
+        self.view.addSubview(cycleBannerViewBottom)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,7 +87,7 @@ class ViewController: UIViewController, KDCycleBannerViewDatasource, KDCycleBann
         let text: String = textField.text
         
         if let page = text.toInt() {
-//            cycleBannerViewTop.setCurrentPage(page, animated: true)
+            cycleBannerViewTop.setCurrentPage(page, animated: true)
             cycleBannerViewBottom.setCurrentPage(page, animated: true)
         }
         

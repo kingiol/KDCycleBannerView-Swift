@@ -67,6 +67,20 @@ class KDCycleBannerView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelega
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        loadData()
+        
+        // progress autoPlayTimeInterval
+        struct DISPATCH_ONE_STRUCT {
+            static var token: dispatch_once_t = 0
+        }
+        dispatch_once(&DISPATCH_ONE_STRUCT.token) {
+            if self.autoPlayTimeInterval > 0 && self.continuous && self.datasourceImages.count > 3 {
+                println("OKKKK");
+                    dispatch_after(self.autoPlayDelay, dispatch_get_main_queue(), self.autoSwitchBanner)
+            }
+        }
+        
     }
     
     override func didMoveToSuperview() {
@@ -78,15 +92,6 @@ class KDCycleBannerView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelega
         clipsToBounds = true
         initializeScrollView()
         initializePageControl()
-        
-        loadData()
-        
-        // progress autoPlayTimeInterval
-        if autoPlayTimeInterval > 0 {
-            if (continuous && datasourceImages.count > 3) || (!continuous && datasourceImages.count > 1) {
-                dispatch_after(autoPlayDelay, dispatch_get_main_queue(), autoSwitchBanner)
-            }
-        }
     }
     
     func initializeScrollView() {
